@@ -8,23 +8,17 @@ class HomeController extends GetxController {
   final focusedDay = Rx<DateTime>(DateTime.now());
   final selectedDay = Rxn<DateTime>();
   final groupIndex = -1.obs;
-  final daysList = RxList<DayAppointmentsModel>([]);
+  final daysList = RxList<DayAppointmentsModel>(List.generate(
+    14,
+    (index) => DayAppointmentsModel(
+      DateTime.now().add(Duration(days: index)),
+      'No appointments',
+    ),
+  ));
   final calendarFormat = Rx<CalendarFormat>(CalendarFormat.week);
   late ItemPositionsListener positionsListener;
   final GroupedItemScrollController groupedItemScrollController =
       GroupedItemScrollController();
-
-  void initData() {
-    List.generate(
-      14,
-      (index) => daysList.add(
-        DayAppointmentsModel(
-          DateTime.now().add(Duration(days: index)),
-          'No appointments',
-        ),
-      ),
-    );
-  }
 
   void onScrollChanges(int? index) {
     if (daysList.isNotEmpty && index != null) {
@@ -44,7 +38,6 @@ class HomeController extends GetxController {
 
   @override
   void onReady() {
-    initData();
     positionsListener.itemPositions.addListener(() {
       final index = positionsListener.itemPositions.value.first.index ~/ 2;
       onScrollChanges(index);
