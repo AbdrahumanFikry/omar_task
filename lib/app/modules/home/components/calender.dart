@@ -31,7 +31,7 @@ class CalenderView extends GetView<HomeController> {
           controller.groupedItemScrollController.scrollTo(
             index: index,
             duration: const Duration(
-              milliseconds: 800,
+              milliseconds: 400,
             ),
             curve: Curves.fastOutSlowIn,
           );
